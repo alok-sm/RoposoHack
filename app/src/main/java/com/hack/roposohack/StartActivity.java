@@ -43,6 +43,8 @@ public class StartActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setTitle("Video Editor");
+
         if (addAudioButton != null) {
             addAudioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -91,6 +93,7 @@ public class StartActivity extends AppCompatActivity {
                         goToEffectsActivity.putExtra("audioFile", audioFile.getAbsolutePath());
                         goToEffectsActivity.putExtra("videoFile", videoFile.getAbsolutePath());
                         startActivity(goToEffectsActivity);
+                        finish();
                     }
                 });
             }

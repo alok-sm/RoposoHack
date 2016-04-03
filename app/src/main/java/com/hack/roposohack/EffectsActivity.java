@@ -38,6 +38,8 @@ public class EffectsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setTitle("Video Editor");
+
         audioFile = new File(getIntent().getStringExtra("audioFile"));
         videoFile = new File(getIntent().getStringExtra("videoFile"));
 
@@ -51,6 +53,7 @@ public class EffectsActivity extends AppCompatActivity {
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_btn_add);
+        fab.hide();
 
 
         new Thread(new Runnable(){
@@ -112,11 +115,38 @@ public class EffectsActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             //Update UI here.
-                                            Intent goToPlayerActivity = new Intent(
-                                                    EffectsActivity.this, PlayerActivity.class);
-                                            goToPlayerActivity.putExtra("videoFile",
-                                                    "/sdcard/vid.mp4");
-                                            startActivity(goToPlayerActivity);
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(EffectsActivity.this);
+                                            builder.setMessage("Write your message here.");
+                                            builder.setCancelable(true);
+
+                                            builder.setPositiveButton(
+                                                    "OK",
+                                                    new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int id) {
+                                                            //Stuff to do on "OK"
+                                                            Intent goToPlayerActivity = new Intent(
+                                                                    EffectsActivity.this, PlayerActivity.class);
+                                                            goToPlayerActivity.putExtra("videoFile",
+                                                                    "/sdcard/vid.mp4");
+                                                            startActivity(goToPlayerActivity);
+                                                            finish();
+                                                            dialog.cancel();
+                                                        }
+                                                    });
+
+                                            builder.setNegativeButton(
+                                                    "Cancel",
+                                                    new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int id) {
+                                                            //Stuff to do on cancel
+                                                            Intent goToStart = new Intent(EffectsActivity.this, StartActivity.class);
+                                                            startActivity(goToStart);
+                                                            finish();
+                                                            dialog.cancel();
+                                                        }
+                                                    });
+                                            AlertDialog alert11 = builder.create();
+                                            alert11.show();
                                         }
                                     });
                                 }
@@ -132,6 +162,7 @@ public class EffectsActivity extends AppCompatActivity {
 
     //Send something like 1.30
     private void setDurationText(String duration){
+        fab.show();
         suggestView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
         durationViewLayout.setVisibility(View.VISIBLE);

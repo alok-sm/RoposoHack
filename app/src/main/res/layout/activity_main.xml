@@ -16,10 +16,11 @@
         <Button
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="New Button"
+            android:text="Add Audio"
             android:id="@+id/addAudio"
-            android:background="#ddd"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            android:background="#4CAF50"
+            android:textColor="#ffffff"
+            android:textSize="30sp"/>
 
     </LinearLayout>
     <LinearLayout
@@ -32,9 +33,11 @@
         <Button
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="New Button"
-            android:id="@+id/AddVideo"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            android:text="Add Video"
+            android:id="@+id/addVideo"
+            android:background="#F44336"
+            android:textColor="#ffffff"
+            android:textSize="30sp"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import java.io.File;
+
 public class EffectsActivity extends AppCompatActivity {
 
     @Override
@@ -24,6 +26,9 @@ public class EffectsActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        File audioFile = new File(getIntent().getStringExtra("audioFile"));
+        File videoFile = new File(getIntent().getStringExtra("videoFile"));
     }
 
 }

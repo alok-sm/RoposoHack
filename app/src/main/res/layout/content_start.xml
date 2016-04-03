@@ -5,22 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.hack.roposohack.MainActivity">
+    tools:context="com.hack.roposohack.MainActivity"
+    android:layout_marginTop="?attr/actionBarSize">
     <LinearLayout
         android:id="@+id/LinearLayoutTop"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="#009688">
 
         <Button
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:text="Add Audio"
             android:id="@+id/addAudio"
-            android:background="#4CAF50"
             android:textColor="#ffffff"
-            android:textSize="30sp"/>
+            android:textSize="30sp"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
 
     </LinearLayout>
     <LinearLayout
@@ -28,16 +30,17 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="#4CAF50">
 
         <Button
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:text="Add Video"
             android:id="@+id/addVideo"
-            android:background="#F44336"
             android:textColor="#ffffff"
-            android:textSize="30sp"/>
+            android:textSize="30sp"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
 
     </LinearLayout>
 </LinearLayout>

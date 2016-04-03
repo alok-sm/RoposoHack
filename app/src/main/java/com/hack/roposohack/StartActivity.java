@@ -2,29 +2,45 @@ package com.hack.roposohack;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.File;
+
+public class StartActivity extends AppCompatActivity {
 
     private int RESULT_SUCCESS_AUDIO = 1;
     private int RESULT_SUCCESS_VIDEO = 2;
 
     private Button addAudioButton;
     private Button addVideoButton;
+    private FloatingActionButton fab;
+    private Toolbar toolbar;
 
     private boolean audioAdded = false;
     private boolean videoAdded = false;
 
+    private File audioFile;
+    private File videoFile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_start);
 
         addAudioButton = (Button) findViewById(R.id.addAudio);
         addVideoButton = (Button) findViewById(R.id.addVideo);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.hide();
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         if (addAudioButton != null) {
             addAudioButton.setOnClickListener(new View.OnClickListener() {
@@ -53,22 +69,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode,int resultCode,Intent data){
 
         if(resultCode == RESULT_OK){
-            Uri uri = data.getData();
+            Uri selectedUri = data.getData();
+            File selectedFile = new File(selectedUri.getPath());
             if(requestCode == RESULT_SUCCESS_AUDIO){
                 addAudioButton.setText("\u2713");
                 audioAdded = true;
-                //Add stuff to do with Audio below
+                audioFile = selectedFile;
             }else if(requestCode == RESULT_SUCCESS_VIDEO){
                 addVideoButton.setText("\u2713");
                 videoAdded = true;
-                //Add stuff to do with Audio below
+                videoFile = selectedFile;
             }
 
             if(audioAdded && videoAdded){
-                Intent goToEffectsActivity = new Intent(this, EffectsActivity.class);
-                startActivity(goToEffectsActivity);
+                fab.show();
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent goToEffectsActivity = new Intent(StartActivity.this, EffectsActivity.class);
+                        goToEffectsActivity.putExtra("audioFile", audioFile.getAbsolutePath());
+                        goToEffectsActivity.putExtra("videoFile", videoFile.getAbsolutePath());
+                        startActivity(goToEffectsActivity);
+                    }
+                });
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 }

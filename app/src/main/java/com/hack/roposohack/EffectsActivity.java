@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -22,8 +23,6 @@ public class EffectsActivity extends AppCompatActivity {
     private File videoFile;
 
     private FloatingActionButton fab;
-    private Button addEffectsButton;
-    private LinearLayout addEffectsLayout;
     private LinearLayout durationViewLayout;
     private TextView durationView;
     private ProgressBar progressBar;
@@ -43,19 +42,32 @@ public class EffectsActivity extends AppCompatActivity {
         durationView = (TextView) findViewById(R.id.durationView);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        addEffectsLayout = (LinearLayout) findViewById(R.id.addEffectsLayout);
         durationViewLayout = (LinearLayout) findViewById(R.id.durationViewLayout);
-        addEffectsLayout.setVisibility(View.INVISIBLE);
         durationViewLayout.setVisibility(View.INVISIBLE);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.hide();
+        fab.setImageResource(R.drawable.ic_btn_add);
 
-        setDurationText("test");
 
-        addEffectsButton = (Button) findViewById(R.id.addEffects);
-        addEffectsButton.setOnClickListener(new View.OnClickListener() {
+        new Thread(new Runnable(){
+            public void run(){
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                // Do the operation to find duration here
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // set the duration here.
+                        setDurationText("test");
+                    }
+                });
+            }
+        }).start();
+
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             final CharSequence[] items = {" Easy "," Medium "," Hard "," Very Hard "};
@@ -75,32 +87,37 @@ public class EffectsActivity extends AppCompatActivity {
                 }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        fab.show();
+                        fab.setImageResource(R.drawable.ic_btn_check);
+                        fab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                            fab.hide();
+                            progressBar.setVisibility(View.VISIBLE);
+                            new Thread(new Runnable() {
+                                public void run() {
+                                    //Write code to do stuff here
+                                    //videoFile and audioFile are global in this class
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            //Update UI here.
+                                        }
+                                    });
+                                }
+                            }).start();
+                            }
+                        });
                     }
                 }).create();
             dialog.show();
             }
         });
-
-        if (fab != null) {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                fab.hide();
-                progressBar.setVisibility(View.VISIBLE);
-                addEffectsLayout.setVisibility(View.INVISIBLE);
-                //Write code to do stuff here
-                //videoFile and audioFile are global in this class
-                }
-            });
-        }
     }
 
     //Send something like 1.30
     private void setDurationText(String duration){
         progressBar.setVisibility(View.INVISIBLE);
-        addEffectsLayout.setVisibility(View.VISIBLE);
         durationViewLayout.setVisibility(View.VISIBLE);
-        durationView.setText("Duration:" + duration);
+        durationView.setText("Duration: " + duration);
     }
 }

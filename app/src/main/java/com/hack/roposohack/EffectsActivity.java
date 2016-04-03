@@ -1,6 +1,7 @@
 package com.hack.roposohack;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -25,6 +26,7 @@ public class EffectsActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private LinearLayout durationViewLayout;
     private TextView durationView;
+    private TextView suggestView;
     private ProgressBar progressBar;
 
     private ArrayList selectedItems;
@@ -40,6 +42,8 @@ public class EffectsActivity extends AppCompatActivity {
         videoFile = new File(getIntent().getStringExtra("videoFile"));
 
         durationView = (TextView) findViewById(R.id.durationView);
+        suggestView = (TextView) findViewById(R.id.suggestView);
+        suggestView.setVisibility(View.INVISIBLE);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         durationViewLayout = (LinearLayout) findViewById(R.id.durationViewLayout);
@@ -88,19 +92,31 @@ public class EffectsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         fab.setImageResource(R.drawable.ic_btn_check);
+                        suggestView.setText("Click on the Click on the \"✔\" button to start conversion");
                         fab.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                             fab.hide();
+                            suggestView.setVisibility(View.INVISIBLE);
                             progressBar.setVisibility(View.VISIBLE);
                             new Thread(new Runnable() {
                                 public void run() {
                                     //Write code to do stuff here
                                     //videoFile and audioFile are global in this class
+                                    try {
+                                        Thread.sleep(3000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             //Update UI here.
+                                            Intent goToPlayerActivity = new Intent(
+                                                    EffectsActivity.this, PlayerActivity.class);
+                                            goToPlayerActivity.putExtra("videoFile",
+                                                    "/sdcard/vid.mp4");
+                                            startActivity(goToPlayerActivity);
                                         }
                                     });
                                 }
@@ -116,6 +132,7 @@ public class EffectsActivity extends AppCompatActivity {
 
     //Send something like 1.30
     private void setDurationText(String duration){
+        suggestView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
         durationViewLayout.setVisibility(View.VISIBLE);
         durationView.setText("Duration: " + duration);

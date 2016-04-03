@@ -27,7 +27,7 @@ public class EffectsActivity extends AppCompatActivity {
     private TextView durationView;
     private ProgressBar progressBar;
 
-    private ArrayList seletedItems;
+    private ArrayList selectedItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,27 +57,27 @@ public class EffectsActivity extends AppCompatActivity {
         addEffectsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final CharSequence[] items = {" Easy "," Medium "," Hard "," Very Hard "};
-                seletedItems = new ArrayList();
+            final CharSequence[] items = {" Easy "," Medium "," Hard "," Very Hard "};
+            selectedItems = new ArrayList();
 
-                AlertDialog dialog = new AlertDialog.Builder(EffectsActivity.this)
-                    .setTitle("Select Effects")
-                    .setMultiChoiceItems(items, null, new DialogInterface.OnMultiChoiceClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int indexSelected, boolean isChecked) {
-                            if (isChecked) {
-                                seletedItems.add(indexSelected);
-                            } else if (seletedItems.contains(indexSelected)) {
-                                seletedItems.remove(Integer.valueOf(indexSelected));
-                            }
+            AlertDialog dialog = new AlertDialog.Builder(EffectsActivity.this)
+                .setTitle("Select Effects")
+                .setMultiChoiceItems(items, null, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int indexSelected, boolean isChecked) {
+                        if (isChecked) {
+                            selectedItems.add(indexSelected);
+                        } else if (selectedItems.contains(indexSelected)) {
+                            selectedItems.remove(Integer.valueOf(indexSelected));
                         }
-                    }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            fab.show();
-                        }
-                    }).create();
-                dialog.show();
+                    }
+                }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        fab.show();
+                    }
+                }).create();
+            dialog.show();
             }
         });
 
@@ -85,12 +85,11 @@ public class EffectsActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    fab.hide();
-                    progressBar.setVisibility(View.VISIBLE);
-                    addEffectsLayout.setVisibility(View.INVISIBLE);
-                    //Write code to do stuff here
-                    //set duration string to durationView object
-                    //videoFile and audioFile are global in this class
+                fab.hide();
+                progressBar.setVisibility(View.VISIBLE);
+                addEffectsLayout.setVisibility(View.INVISIBLE);
+                //Write code to do stuff here
+                //videoFile and audioFile are global in this class
                 }
             });
         }
